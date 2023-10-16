@@ -24,9 +24,8 @@ Route::prefix('file')->group(function () {
         Storage::disk('google')->putFileAs('', $request->file('thing'), 'filename.jpg');
     })->name('upload');
 
-    Route::get('/create', function () {
-        $filename = 'Bismillah.txt';
-        $upload = Storage::disk('google')->put($filename, 'Test Data Masuk');
+    Route::get('/create/{filename}/{content}', function ($filename, $content) {
+        $upload = Storage::disk('google')->put($filename, $content);
         $meta = Storage::disk("google")
                 ->getAdapter()
                 ->getMetadata($filename);
@@ -93,8 +92,8 @@ Route::prefix('file')->group(function () {
 
 });
 
-Route::get('/directory/create', function () {
-    Storage::disk('google')->makeDirectory('directoryToBe');
+Route::get('/directory/create/{dirname}', function ($dirname) {
+    Storage::disk('google')->makeDirectory($dirname);
 });
 
 Route::get('/directory/list', function () {
